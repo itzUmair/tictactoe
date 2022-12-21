@@ -43,13 +43,14 @@ function user() {
 
 function ai() {
     getAvailableMoves()
-    let choice = Math.floor(Math.random() * availableMoves.length)
-    // console.log(choice)
-    let row = availableMoves[choice][0]
-    let col = availableMoves[choice][1]
-    boxes[((row*3)+col)].innerHTML = aiChar
-    userTurn = true
-    updateBoard(availableMoves[choice], 'O')
+    if (availableMoves.length) {
+        let choice = Math.floor(Math.random() * availableMoves.length)
+        let row = availableMoves[choice][0]
+        let col = availableMoves[choice][1]
+        boxes[((row*3)+col)].innerHTML = aiChar
+        userTurn = true
+        updateBoard(availableMoves[choice], 'O')
+    }
 }
 
 function getAvailableMoves() {
@@ -69,21 +70,33 @@ function updateBoard(box, player) {
 }
 
 // work on game check function
-function gameCheck() {
-    for (let i = 0; i < 8; i++){
-        for (let j of winScenarios[i]) {
-            if (board[j] === board[j+1] && board[j+1] === board[j+2]){
-                console.log(board[j])
-            }
-            else {
-                return false
-            }
-        }
-    }
+// function gameCheck() {
+//     for (let i = 0; i < 8; i++){
+//         for (let j of winScenarios[i]) {
+//             if (board[j] === board[j+1] && board[j+1] === board[j+2]){
+//                 console.log(board[j])
+//             }
+//             else {
+//                 return false
+//             }
+//         }
+//     }
+// }
+
+// gameCheck()
+// setInterval(() => {
+//     if (!gameCheck) {
+//         userTurn ? user() : ai()}},
+//          1000)
+
+function decideTurn() {
+    let turn = Math.round(Math.random())
+    turn ? userTurn = true : userTurn = false
+    console.log(turn)
 }
 
-gameCheck()
+decideTurn()
+
 setInterval(() => {
-    if (!gameCheck) {
-        userTurn ? user() : ai()}},
-         1000)
+    userTurn ? user() : ai()},
+        1000)
